@@ -4,7 +4,7 @@
 #include "reduction.h"
 #include "3tree.h"
 
-const int K = 2;
+const int K = 5;
 
 int nbvar = 0;
 int nbclauses = 0;
@@ -13,9 +13,12 @@ FILE* file = NULL;
 
 int main(int argc, char *argv[]) 
 {	
-	nbvar = var(sizeG()-1, K);
+	nbvar = var(orderG()-1, K);
 
-	file = fopen("out.txt", "w");
+	if (argc <= 1)
+		file = fopen("out.txt", "w");
+	else
+		file = fopen(argv[1], "w");
 	fprintf(file, "p cnf                \n");
 
 	contrainte1();
@@ -25,12 +28,14 @@ int main(int argc, char *argv[])
 	
 	rewind(file);
 	fprintf(file, "p cnf %d %d", nbvar, nbclauses);
+
+	fclose(file);
 }
 
 void contrainte1()
 {
 	//maximum une profondeur par sommet
-	for(int v = 0; v < sizeG(); v++)
+	for(int v = 0; v < orderG(); v++)
 	{
 		for(int i = 0; i < K; i++)
 		{
@@ -42,7 +47,7 @@ void contrainte1()
 		}
 	}
 	//minimum une profondeur par sommet
-	for(int v = 0; v < sizeG(); v++)
+	for(int v = 0; v < orderG(); v++)
 	{
 		int clause[K];
 		for(int i = 0; i <= K; i++)
@@ -56,9 +61,9 @@ void contrainte1()
 void contrainte2()
 {
 	//maximum une racine
-	for(int i = 0; i < sizeG()-1; i++)
+	for(int i = 0; i < orderG()-1; i++)
 	{
-		for(int j = i + 1; j < sizeG(); j++)
+		for(int j = i + 1; j < orderG(); j++)
 		{
 			int clause[2] = {-var(i, 0), -var(j, 0)};
 			printClause(clause, 2);
@@ -67,18 +72,18 @@ void contrainte2()
 
 	//minimum une racine
 	int clause[sizeG()];
-	for(int v = 0; v < sizeG(); v++)
+	for(int v = 0; v < orderG(); v++)
 	{
 		clause[v] = var(v, 0);
 	}
-	printClause(clause, sizeG());
+	printClause(clause, orderG());
 }
 
 void contrainte3()
 {
 	//il existe un sommet de profondeur K
-	int clause[sizeG()];
-	for(int v = 0; v < sizeG(); v++)
+	int clause[orderG()];
+	for(int v = 0; v < orderG(); v++)
 	{
 		clause[v] = var(v, K);
 	}
@@ -89,7 +94,7 @@ void contrainte4()
 {
 	/*soit il existe un sommet voisin de profondeur h-1
 	  soit le sommet n'a pas la profondeur h*/
-	for(int v = 0; v < sizeG(); v++)
+	for(int v = 0; v < orderG(); v++)
 	{
 		int *voisins = voisinage(v);
 		for(int i = 1; i <= K; i++)
@@ -111,7 +116,7 @@ void printClause(int *clause, int nblit)
 	{
 		fprintf(file, "%d ", clause[i]);
 	}
-	fprintf(file, "\n");
+	fprintf(file, "0\n");
 	nbclauses++;
 }
 
@@ -130,7 +135,7 @@ int var(int v, int h)
 
 int* voisinage(int v)
 {
-	int *voisins = malloc(sizeof(int) * sizeG());
+	int *voisins = malloc(sizeof(int) * orderG());
 	voisins[0] = 0;
 	for(int w = 0; w <= K; w++)
 	{

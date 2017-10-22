@@ -2,12 +2,12 @@
 
 int orderG()
 {
-	return 2;
+	return 3;
 }
 
 int sizeG()
 {
-	return 3;
+	return 2;
 }
 
 int are_adjacent(int u, int v)
