@@ -4,7 +4,7 @@
 #include "reduction.h"
 #include "3tree.h"
 
-int K = 2;
+int K = 5;
 
 int nbvar = 0;
 int nbclauses = 0;
@@ -89,7 +89,7 @@ void contrainte3()
 	{
 		clause[v] = var(v, K);
 	}
-	printClause(clause, sizeG());
+	printClause(clause, orderG());
 }
 
 void contrainte4()
