@@ -4,7 +4,7 @@
 #include "reduction.h"
 #include "3tree.h"
 
-const int K = 5;
+int K = 2;
 
 int nbvar = 0;
 int nbclauses = 0;
@@ -15,10 +15,12 @@ int main(int argc, char *argv[])
 {	
 	nbvar = var(orderG()-1, K);
 
-	if (argc <= 1)
-		file = fopen("out.txt", "w");
+	if (argc > 1)
+		K = atoi(argv[1]);
+	if (argc > 2)
+		file = fopen(argv[2], "w");
 	else
-		file = fopen(argv[1], "w");
+		file = fopen("out.txt", "w");
 	fprintf(file, "p cnf                \n");
 
 	contrainte1();
