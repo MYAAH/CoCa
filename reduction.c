@@ -101,7 +101,7 @@ void contrainte4()
 		int *voisins = voisinage(v);
 		for(int i = 1; i <= K; i++)
 		{
-			int clause[voisins[0]];
+			int clause[voisins[0] + 1];
 			clause[0] = -var(v, i);
 			for(int j = 1; j <= voisins[0]; j++)
 			{
