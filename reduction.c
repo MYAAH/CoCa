@@ -51,7 +51,7 @@ void contrainte1()
 	//minimum une profondeur par sommet
 	for(int v = 0; v < orderG(); v++)
 	{
-		int clause[K];
+		int clause[K+1];
 		for(int i = 0; i <= K; i++)
 		{
 			clause[i] = var(v, i);
@@ -139,7 +139,7 @@ int* voisinage(int v)
 {
 	int *voisins = malloc(sizeof(int) * orderG());
 	voisins[0] = 0;
-	for(int w = 0; w <= K; w++)
+	for(int w = 0; w < orderG() ; w++)
 	{
 		if(v != w)
 		{
