@@ -2,7 +2,7 @@
 #include <stdio.h>
 
 #include "reduction.h"
-#include "3tree.h"
+#include "all.h"
 
 int K = 5;
 
@@ -73,7 +73,7 @@ void contrainte2()
 	}
 
 	//minimum une racine
-	int clause[sizeG()];
+	int clause[orderG()];
 	for(int v = 0; v < orderG(); v++)
 	{
 		clause[v] = var(v, 0);

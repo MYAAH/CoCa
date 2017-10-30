@@ -1,12 +1,12 @@
 CC = gcc -ggdb -std=c99
 CFLAGS = -I.
-PROGRAM = 3tree petersen
+PROGRAM = 3tree petersen 10K2 C10 sierp3
 
 all: $(PROGRAM)
 #all: reduction.c reduction.h 3tree.c 3tree.h
 #	$(CC) -o $(PROGRAM) reduction.c 3tree.c $(CFLAGS)
 
-%: reduction.c reduction.h %.c %.h
+%: reduction.c reduction.h %.c all.h
 	$(CC) -o $@ reduction.c $@.c $(CFLAGS)
 
 run: $(PROGRAM)

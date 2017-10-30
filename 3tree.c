@@ -1,4 +1,4 @@
-#include "3tree.h"
+#include "all.h"
 
 int orderG()
 {
