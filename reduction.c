@@ -21,6 +21,11 @@ int main(int argc, char *argv[])
 		file = fopen(argv[2], "w");
 	else
 		file = fopen("out.txt", "w");
+	// If errors, exit
+	if (file == NULL)
+	{
+		exit(1);
+	}
 	fprintf(file, "p cnf                \n");
 
 	contrainte1();
@@ -109,6 +114,7 @@ void contrainte4()
 			}
 			printClause(clause, voisins[0] + 1);
 		}
+		free(voisins);
 	}
 }
 
@@ -120,14 +126,6 @@ void printClause(int *clause, int nblit)
 	}
 	fprintf(file, "0\n");
 	nbclauses++;
-}
-
-int coeffB(int k, int n)
-{
-	if(k == 0 || k == n)
-		return 1;
-
-	return coeffB(k-1, n-1) + coeffB(k, n - 1);	
 }
 
 int var(int v, int h)

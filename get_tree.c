@@ -6,30 +6,33 @@
 
 FILE* file_in = NULL;
 FILE* file_out = NULL;
+int maxHeight = 0;
 
 
 int main(int argc, char *argv[]) 
 {	
-	files_open(argc, argv);
+	filesOpen(argc, argv);
 
-	//get_vertices();
+	getHeight();
+	int heightOfVertices[orderG()];
+	getVertices(heightOfVertices);
 
 	//rewind(file);
 	// When we are finished, close files
-	files_close();
+	filesClose();
 }
 
-void files_open(int argc, char *argv[])
+void filesOpen(int argc, char *argv[])
 {
 	if (argc == 1)
 	{
-		file_in  = fopen("glucose_out.txt", "w");
+		file_in  = fopen("glucose_out.txt", "r");
 		file_out = stdout;
 	} else if (argc == 2) {
-		file_in  = fopen(argv[1], "w");
+		file_in  = fopen(argv[1], "r");
 		file_out = stdout;
 	} else {
-		file_in  = fopen(argv[1], "w");
+		file_in  = fopen(argv[1], "r");
 		file_out = fopen(argv[2], "w");
 	}
 	// If errors, quit
@@ -39,7 +42,7 @@ void files_open(int argc, char *argv[])
 	}
 }
 
-void files_close()
+void filesClose()
 {
 	fclose(file_in);
 	if (file_out != stdout)
@@ -48,7 +51,41 @@ void files_close()
 	}
 }
 
-void printClause(int *clause, int nblit)
+void getHeight()
+{
+	int fileValue = 0;
+	int cpt = 0;
+
+	fscanf (file_in, "%d", &fileValue);
+	while (fileValue != 0)
+	{
+		cpt++;
+		fscanf (file_in, "%d", &fileValue);
+	}
+	maxHeight = (cpt/orderG())-1;
+
+	rewind(file_in);
+}
+
+void getVertices(int *vertices)
+{
+	int fileValue = 0;
+
+	fscanf (file_in, "%d", &fileValue);
+	while (fileValue != 0)
+	{
+		if (fileValue > 0)
+		{
+			int vIndex = (fileValue - 1) / (maxHeight+1);
+			int vHeight = (fileValue - 1) % (maxHeight+1);
+			vertices[vIndex] = vHeight;
+			printf("I:%d, H:%d.\n", vIndex, vHeight);
+		}
+		fscanf (file_in, "%d", &fileValue);
+	}
+}
+
+/*void printClause(int *clause, int nblit)
 {
 	for(int i = 0; i < nblit; i++)
 	{
@@ -61,7 +98,7 @@ void printClause(int *clause, int nblit)
 int var(int v, int h)
 {
 	return (v*(K+1))+h+1;
-}
+}*/
 
 int* voisinage(int v)
 {

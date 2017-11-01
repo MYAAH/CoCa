@@ -17,9 +17,6 @@ void contrainte4();
 //Crée une nouvelle clause dans le fichiers de sortie
 void printClause(int *litteraux, int nblit);
 
-//Calcule le coefficient binomial k parmi n
-int coeffB(int k, int n);
-
 //Calcule le numéro de la variable correspondant à x(v,h)
 int var(int v, int h);
 
