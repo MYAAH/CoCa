@@ -17,7 +17,8 @@ int main(int argc, char *argv[])
 	int heightOfVertices[orderG()];
 	getVertices(heightOfVertices);
 
-	//rewind(file);
+	printTree(heightOfVertices);
+
 	// When we are finished, close files
 	filesClose();
 }
@@ -79,41 +80,29 @@ void getVertices(int *vertices)
 			int vIndex = (fileValue - 1) / (maxHeight+1);
 			int vHeight = (fileValue - 1) % (maxHeight+1);
 			vertices[vIndex] = vHeight;
-			printf("I:%d, H:%d.\n", vIndex, vHeight);
 		}
 		fscanf (file_in, "%d", &fileValue);
 	}
 }
 
-/*void printClause(int *clause, int nblit)
+void printTree(int *vertices)
 {
-	for(int i = 0; i < nblit; i++)
+	for (int i = 1 ; i <= maxHeight ; i++)
 	{
-		fprintf(file, "%d ", clause[i]);
-	}
-	fprintf(file, "0\n");
-	nbclauses++;
-}
-
-int var(int v, int h)
-{
-	return (v*(K+1))+h+1;
-}*/
-
-int* voisinage(int v)
-{
-	int *voisins = malloc(sizeof(int) * orderG());
-	voisins[0] = 0;
-	for(int w = 0; w < orderG() ; w++)
-	{
-		if(v != w)
+		fprintf(file_out, "Height : %d -> %d\n", i-1, i);
+		for (int j = 0 ; j < orderG() ; j++)
 		{
-			if(are_adjacent(v, w))
+			if (vertices[j] == i)
 			{
-				voisins[voisins[0]+1] = w;
-				voisins[0]++;
+				for (int k = 0 ; k < orderG() ; k++)
+				{
+					if (vertices[k] == i-1 && are_adjacent(j, k))
+					{
+	fprintf(file_out, "%d -> %d\n", k, j);
+	break;
+					}
+				}
 			}
 		}
 	}
-	return voisins;
 }
