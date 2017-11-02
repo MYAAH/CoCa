@@ -14,6 +14,12 @@ int main(int argc, char *argv[])
 	filesOpen(argc, argv);
 
 	getHeight();
+	if (maxHeight == -1)
+	{
+		printf("Fichier invalide ! On quitte...\n");
+		return 1;
+	}
+
 	int heightOfVertices[orderG()];
 	getVertices(heightOfVertices);
 
@@ -87,9 +93,9 @@ void getVertices(int *vertices)
 
 void printTree(int *vertices)
 {
+	printf("Hauteur début : 0(racine).\n");
 	for (int i = 1 ; i <= maxHeight ; i++)
 	{
-		fprintf(file_out, "Height : %d -> %d\n", i-1, i);
 		for (int j = 0 ; j < orderG() ; j++)
 		{
 			if (vertices[j] == i)
@@ -105,4 +111,5 @@ void printTree(int *vertices)
 			}
 		}
 	}
+	printf("Hauteur Maximale : %d.\n", maxHeight);
 }
